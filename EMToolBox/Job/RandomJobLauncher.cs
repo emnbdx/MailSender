@@ -47,7 +47,7 @@ namespace EMToolBox.Job
         /// <summary>
         /// RandomJobLauncher do search at refresh time + a random time (0 - 1 minute)
         /// <param name="job">Instance of IJob interface</param>
-        /// <param name="refreshTime">Base time to launch the job in millisecond(s)</param>
+        /// <param name="refreshTime">Base time to launch the job in minute(s)</param>
         /// </summary>
         public RandomJobLauncher(IJob job, int launchInterval)
             : base(job, launchInterval)

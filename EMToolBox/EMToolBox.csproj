@@ -55,6 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EMMail.cs" />
     <Compile Include="FlexibleMessageBox.cs" />
     <Compile Include="Job\IJob.cs" />
     <Compile Include="Job\JobLauncher.cs" />

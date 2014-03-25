@@ -87,12 +87,20 @@ namespace EMToolBox.Job
         }
 
         /// <summary>
-        /// Use to update interval time launch on the fly
+        /// Interval time to launch job
         /// </summary>
-        /// <param name="time">Inteval time in millisecond</param>
-        public void UpdateIntervalTime(int time)
+        public int IntervalTime
         {
-            m_launchInterval = time;
+            get { return m_launchInterval; }
+            set { m_launchInterval = value; }
+        }
+
+        /// <summary>
+        /// IJob instance launched by this launcher
+        /// </summary>
+        public IJob Job
+        {
+            get { return m_job; }
         }
 
         /// <summary>

@@ -40,12 +40,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DelegateAppender.cs" />
-    <Compile Include="EMMail.cs" />
+    <Compile Include="Mail\EMMail.cs" />
     <Compile Include="FlexibleMessageBox.cs" />
     <Compile Include="Job\IJob.cs" />
     <Compile Include="Job\JobLauncher.cs" />
     <Compile Include="Job\RandomJobLauncher.cs" />
     <Compile Include="License\Constant.cs" />
+    <Compile Include="Mail\Formater.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CommandLine.cs" />
     <Compile Include="Services\DebuggableService.cs">

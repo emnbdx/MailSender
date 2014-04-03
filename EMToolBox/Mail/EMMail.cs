@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -71,22 +72,9 @@ namespace EMToolBox.Mail
             }
         }
 
-        public void SendSmtpMail(String subject, String patternBody, String to, Dictionary<String, Object> parameters)
+        public void SendSmtpMail(String subject, String to, String pattern, Dictionary<String, Object> parameters)
         {
-            Formater formater = new Formater(patternBody, parameters);
-
-            SendSmtpMail(subject, formater.GetFormated(), to);
-        }
-
-        public void SendSmtpMail(String subject, FileInfo patternBody, String to, Dictionary<String, Object> parameters)
-        {
-            String tmp;
-            using (StreamReader fs = new StreamReader(patternBody.OpenRead()))
-            {
-                tmp = fs.ReadToEnd();
-            }
-
-            Formater formater = new Formater(tmp, parameters);
+            Formater formater = new Formater(pattern, parameters);
             SendSmtpMail(subject, formater.GetFormated(), to);
         }
     }

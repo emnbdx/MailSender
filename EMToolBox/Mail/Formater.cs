@@ -20,8 +20,10 @@ namespace EMToolBox.Mail
 
         public string GetFormated()
         {
-            if(!String.IsNullOrEmpty(m_formatedString))
+            if(String.IsNullOrEmpty(m_formatedString))
             {
+                m_formatedString = m_unformatedString;
+                
                 foreach (String key in m_params.Keys)
                 {
                     String t = m_params[key].GetType().Name;
@@ -34,7 +36,7 @@ namespace EMToolBox.Mail
                          * 
                          */
                         default:
-                            m_formatedString = m_unformatedString.Replace(key, Convert.ToString(m_params[key]));
+                            m_formatedString = m_formatedString.Replace(key, Convert.ToString(m_params[key]));
                             break;
                     }
                 }

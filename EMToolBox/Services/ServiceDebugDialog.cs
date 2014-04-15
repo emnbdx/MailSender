@@ -159,7 +159,7 @@ namespace EMToolBox.Services
                 m_serviceThread.Start();
                 btnStopService.Enabled = true;
             }
-            catch (Exception e)
+            catch
             {
                 btnStartService.Enabled = true;
             }

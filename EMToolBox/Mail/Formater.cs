@@ -23,21 +23,24 @@ namespace EMToolBox.Mail
             if(String.IsNullOrEmpty(m_formatedString))
             {
                 m_formatedString = m_unformatedString;
-                
-                foreach (String key in m_params.Keys)
+
+                if (m_params != null)
                 {
-                    String t = m_params[key].GetType().Name;
-                    switch (t)
+                    foreach (String key in m_params.Keys)
                     {
-                        /*case "Int":
-                            break;
-                         * 
-                         * ...
-                         * 
-                         */
-                        default:
-                            m_formatedString = m_formatedString.Replace(key, Convert.ToString(m_params[key]));
-                            break;
+                        String t = m_params[key].GetType().Name;
+                        switch (t)
+                        {
+                            /*case "Int":
+                                break;
+                             * 
+                             * ...
+                             * 
+                             */
+                            default:
+                                m_formatedString = m_formatedString.Replace(key, Convert.ToString(m_params[key]));
+                                break;
+                        }
                     }
                 }
             }

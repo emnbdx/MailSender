@@ -151,7 +151,9 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>mail.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="App.Config" />
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Mail\mail.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>mail.Context.cs</LastGenOutput>

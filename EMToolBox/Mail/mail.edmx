@@ -79,7 +79,7 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="NAME" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="CONTENT" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CONTENT" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="HTML" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="QUEUE" Relationship="EMMAILModel.FK__QUEUE__PATTERN_I__145C0A3F" FromRole="PATTERN" ToRole="QUEUE" />
         </EntityType>
@@ -91,7 +91,7 @@
           <Property Name="PATTERN_ID" Type="Int32" Nullable="false" />
           <Property Name="TO" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="SUBJECT" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="BODY" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="BODY" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="CREATIONDATE" Type="DateTime" Precision="7" />
           <Property Name="SENDDATE" Type="DateTime" Precision="7" />
           <Property Name="SEND" Type="Boolean" Nullable="false" />

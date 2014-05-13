@@ -79,6 +79,11 @@ namespace EMToolBox.Mail
             }
         }
 
+        public PATTERN GetPattern(string name)
+        {
+            return Pattern.First(entry => entry.NAME == name);
+        }
+
         /// <summary>
         /// Add Mail to queue
         /// </summary>
@@ -88,7 +93,7 @@ namespace EMToolBox.Mail
         /// <param name="parameters"></param>
         public void Add(String subject, String to, String pattern, Dictionary<String, Object> parameters)
         {
-            PATTERN pat = Pattern.First(entry => entry.NAME == pattern);
+            PATTERN pat = GetPattern(pattern);
             Formater formater = new Formater(pat.CONTENT, parameters);
 
             _context.QUEUE.Add(new QUEUE()

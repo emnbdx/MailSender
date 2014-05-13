@@ -14,67 +14,99 @@ namespace EMToolBox.Mail
     {
         private ILog log = LogManager.GetLogger(typeof(EMMail));
         
-        private static int m_port = 587;
-        private static string[,] m_login = new string[7, 3] { 
-            { "contact@lbcalerter.com", "vicpt240", "auth.smtp.1and1.fr"},
-            { "emappmailsender@gmail.com", "3m4ppm4ailS3nder", "smtp.gmail.com"},
-            {"emappmailsender1@gmail.com", "3m4ppm4ailS3nder", "smtp.gmail.com"},
-            {"emappmailsender2@gmail.com", "3m4ppm4ailS3nder", "smtp.gmail.com"},
-            {"emappmailsender3@gmail.com", "3m4ppm4ailS3nder", "smtp.gmail.com"},
-            {"emappmailsender4@gmail.com", "3m4ppm4ailS3nder", "smtp.gmail.com"},
-            {"emappmailsender5@gmail.com", "3m4ppm4ailS3nder", "smtp.gmail.com"} };
-        private void Send(String subject, String body, String to, int attemp)
+        private EMMAILEntities _context = new EMMAILEntities();
+
+        private List<PATTERN> _patterns;
+
+        private List<PATTERN> Pattern
         {
-            try
+            get
             {
-                MailMessage message = new MailMessage();
-
-                message.From = new MailAddress(m_login[attemp, 0]);
-                message.To.Add(to);
-                message.Subject = subject;
-                message.IsBodyHtml = true;
-                message.Body = body;
-
-                using (SmtpClient smtp = new SmtpClient(m_login[attemp, 2], m_port))
-                {
-                    if (m_port != 25)
-                        smtp.EnableSsl = true;
-                    if (!String.IsNullOrEmpty(m_login[attemp, 0]) && !String.IsNullOrEmpty(m_login[attemp, 1]))
-                        smtp.Credentials = new System.Net.NetworkCredential(m_login[attemp, 0], m_login[attemp, 1]);
-                    smtp.Send(message);
-                }
+                if (_patterns == null)
+                    _patterns = _context.PATTERN.ToList();
+                return _patterns;
             }
-            catch (Exception e)
-            {
-                throw new Exception("Error when sending email", e);
-            }
+            set { _patterns = value; }
         }
 
-        public void SendSmtpMail(String subject, String body, String to)
+        private List<SERVER> _servers;
+
+        private List<SERVER> Server
         {
-            int attemps = 0;
-            while (attemps < m_login.GetLength(0))
+            get
+            {
+                if (_servers == null)
+                    _servers = _context.SERVER.Where(entry => entry.ENABLE == true).ToList();
+                return _servers;
+            }
+            set { _servers = value; }
+        }
+        
+
+        private void Send(QUEUE element)
+        {
+            foreach (SERVER server in Server)
             {
                 try
                 {
-                    if (attemps != 0)
-                        log.Info("Nouvelle tentative #" + attemps + " après erreur");
+                    MailMessage message = new MailMessage();
 
-                    Send(subject, body, to, attemps);
-                    break;
+                    message.From = new MailAddress(server.LOGIN);
+                    message.To.Add(element.TO);
+                    message.Subject = element.SUBJECT;
+                    message.IsBodyHtml = element.PATTERN.HTML;
+                    message.Body = element.BODY;
+
+                    using (SmtpClient smtp = new SmtpClient(server.IP, server.PORT))
+                    {
+                        if (server.SSL)
+                            smtp.EnableSsl = true;
+                        if (!String.IsNullOrEmpty(server.LOGIN) && !String.IsNullOrEmpty(server.PASSWORD))
+                            smtp.Credentials = new System.Net.NetworkCredential(server.LOGIN, server.PASSWORD);
+                        smtp.Send(message);
+                    }
+
+                    element.SEND = true;
+                    element.SENDDATE = DateTime.Now;
                 }
                 catch (Exception e)
                 {
-                    log.Error(e.Message + "\r\n" + e.InnerException);
+                    throw new Exception("Error when sending email", e);
                 }
-                attemps++;
             }
         }
 
-        public void SendSmtpMail(String subject, String to, String pattern, Dictionary<String, Object> parameters)
+        /// <summary>
+        /// Add Mail to queue
+        /// </summary>
+        /// <param name="subject"></param>
+        /// <param name="to"></param>
+        /// <param name="pattern"></param>
+        /// <param name="parameters"></param>
+        public void Add(String subject, String to, String pattern, Dictionary<String, Object> parameters)
         {
-            Formater formater = new Formater(pattern, parameters);
-            SendSmtpMail(subject, formater.GetFormated(), to);
+            PATTERN pat = Pattern.First(entry => entry.NAME == pattern);
+            Formater formater = new Formater(pat.CONTENT, parameters);
+
+            _context.QUEUE.Add(new QUEUE () {
+                PATTERN = pat,
+                SUBJECT = subject,
+                TO = to,
+                BODY = formater.GetFormated(),
+                CREATIONDATE = DateTime.Now
+            });
+
+            _context.SaveChanges();
+        }
+
+        /// <summary>
+        /// Send all mail (not already send)
+        /// </summary>
+        public void Send()
+        {
+            List<QUEUE> elements = _context.QUEUE.Where(entry => entry.SEND == false).OrderBy(entry => entry.CREATIONDATE).ToList();
+            foreach (QUEUE element in elements)
+                Send(element);
         }
     }
 }

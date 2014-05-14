@@ -115,7 +115,7 @@ namespace EMToolBox.Mail
         {
             List<QUEUE> elements = _context.QUEUE.Where(entry => entry.SEND == false).OrderBy(entry => entry.CREATIONDATE).ToList();
             if(elements.Count > 0)
-                log.Info("Envoi de " + elements.Count + "mails...");
+                log.Info("Envoi de " + elements.Count + " mails...");
             foreach (QUEUE element in elements)
                 Send(element);
             if (elements.Count > 0)

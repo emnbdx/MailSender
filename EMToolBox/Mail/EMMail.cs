@@ -117,7 +117,14 @@ namespace EMToolBox.Mail
             if(elements.Count > 0)
                 log.Info("Envoi de " + elements.Count + " mails...");
             foreach (QUEUE element in elements)
-                Send(element);
+                try
+                {
+                    Send(element);
+                }
+                catch
+                {
+                    log.Error("Erreur lors de l'envoi du mail [" + element.SUBJECT + "] pour [" + element.TO + "]");
+                }
             if (elements.Count > 0)
                 log.Info("OK");
         }

@@ -37,6 +37,9 @@ namespace EMToolBox.Mail
                              * ...
                              * 
                              */
+                            case "DateTime" :
+                                m_formatedString = m_formatedString.Replace(key, ((DateTime)m_params[key]).ToString("dd/MM/yyyy HH:mm:ss"));
+                                break;
                             default:
                                 m_formatedString = m_formatedString.Replace(key, Convert.ToString(m_params[key]));
                                 break;

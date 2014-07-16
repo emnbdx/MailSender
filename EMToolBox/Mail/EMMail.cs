@@ -91,10 +91,10 @@ namespace EMToolBox.Mail
         /// <param name="to"></param>
         /// <param name="pattern"></param>
         /// <param name="parameters"></param>
-        public void Add(String subject, String to, String pattern, Dictionary<String, Object> parameters)
+        public void Add(String subject, String to, String pattern, object source)
         {
             PATTERN pat = GetPattern(pattern);
-            Formater formater = new Formater(pat.CONTENT, parameters);
+            Formater formater = new Formater(source, pat.CONTENT);
 
             _context.QUEUE.Add(new QUEUE()
             {

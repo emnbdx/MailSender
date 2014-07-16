@@ -8,44 +8,21 @@ namespace EMToolBox.Mail
 {
     public class Formater
     {
-        private Dictionary<String, Object> m_params;
+        private object m_source;
         private string m_unformatedString;
         private string m_formatedString;
 
-        public Formater(string unformated, Dictionary<String, Object> parameters)
+        public Formater(object source, string unformated)
         {
+            m_source = source;
             m_unformatedString = unformated;
-            m_params = parameters;
         }
 
         public string GetFormated()
         {
             if(String.IsNullOrEmpty(m_formatedString))
             {
-                m_formatedString = m_unformatedString;
-
-                if (m_params != null)
-                {
-                    foreach (String key in m_params.Keys)
-                    {
-                        String t = m_params[key].GetType().Name;
-                        switch (t)
-                        {
-                            /*case "Int":
-                                break;
-                             * 
-                             * ...
-                             * 
-                             */
-                            case "DateTime" :
-                                m_formatedString = m_formatedString.Replace(key, ((DateTime)m_params[key]).ToString("dd/MM/yyyy HH:mm:ss"));
-                                break;
-                            default:
-                                m_formatedString = m_formatedString.Replace(key, Convert.ToString(m_params[key]));
-                                break;
-                        }
-                    }
-                }
+                m_formatedString = m_source.ToString(m_unformatedString, new System.Globalization.CultureInfo("fr-fr"));
             }
 
             return m_formatedString;

@@ -106,6 +106,7 @@
     <Compile Include="SingleFieldInputDialog.designer.cs">
       <DependentUpon>SingleFieldInputDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormattableObject.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Services\ServiceDebugDialog.resx">

@@ -34,48 +34,26 @@ CREATE TABLE SERVER(
 	CONSTRAINT [PK_SERVER] PRIMARY KEY CLUSTERED ([ID] ASC)
 );
 
-insert into PATTERN (NAME, HTML, CONTENT) values ('LBC_AD', 1, '<!DOCTYPE html>
 
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="utf-8" />
-    <title>[Title]</title>
-    <style type="text/css">
-        @import url(http://fonts.googleapis.com/css?family=Lato);
-    </style>
-</head>
-<body style="font-family: Lato, sans-serif; font-weight: 500;">
-    <div style="width: 600px; margin: 0 auto;">
-        <div style="background-color: #0073a3; border-top-left-radius: 4px; border-top-right-radius: 4px; padding: 20px; color: #FFF; font-size: 20px;">[Title]</div>
-        <div style="border: solid #ccc; border-width: 0 1px 1px 1px; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; padding: 20px; font-size: 16px;">[Date], [Place], [Price]<br /><br />
-            <a href="[AdUrl]" target="_blank">
-                <img src="[PictureUrl]" alt="[AdUrl]" style="width:160px; height: 120px;" />
-            </a>
-        </div>
-        <div style="text-align: center; font-size: 10px;">Vous recevez cet email car vous êtes inscrit sur 
-            <a href="http://lbcalerter.com" target="_blank">LBCAlerter</a>.<br />
-            Si vous recevez trop d''email, connectez-vous à votre espace pour modifier vos recherches.
-        </div>
-    </div>
-</body>
-</html>')
 
 insert into PATTERN (NAME, HTML, CONTENT) values ('LBC_CONFIRMATION', 1, '<!DOCTYPE html>
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <title>[Title]</title>
+    <title>{Title}</title>
     <style type="text/css">
         @import url(http://fonts.googleapis.com/css?family=Lato);
     </style>
 </head>
 <body style="font-family: Lato, sans-serif; font-weight: 500;">
     <div style="width: 600px; margin: 0 auto;">
-        <div style="background-color: #0073a3; border-top-left-radius: 4px; border-top-right-radius: 4px; padding: 20px; color: #FFF; font-size: 20px;">[Title]</div>
+        <div style="background-color: #0073a3; border-top-left-radius: 4px; border-top-right-radius: 4px; padding: 20px; color: #FFF; font-size: 20px;">
+			{Title}
+		</div>
         <div style="border: solid #ccc; border-width: 0 1px 1px 1px; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; padding: 20px; font-size: 16px;">
             Afin de valider votre inscription, merci de cliquer sur le lien suivant:
-            <a href="http://lbcalerter.com/Account/RegisterConfirmation/[Token]">
+            <a href="http://lbcalerter.com/Account/RegisterConfirmation/{Token}">
                 http://lbcalerter.com/Account/RegisterConfirmation
             </a>
         </div>
@@ -93,17 +71,19 @@ insert into PATTERN (NAME, HTML, CONTENT) values ('LBC_RESET', 1, '<!DOCTYPE htm
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <title>[Title]</title>
+    <title>{Title}</title>
     <style type="text/css">
         @import url(http://fonts.googleapis.com/css?family=Lato);
     </style>
 </head>
 <body style="font-family: Lato, sans-serif; font-weight: 500;">
     <div style="width: 600px; margin: 0 auto;">
-        <div style="background-color: #0073a3; border-top-left-radius: 4px; border-top-right-radius: 4px; padding: 20px; color: #FFF; font-size: 20px;">[Title]</div>
+        <div style="background-color: #0073a3; border-top-left-radius: 4px; border-top-right-radius: 4px; padding: 20px; color: #FFF; font-size: 20px;">
+			{Title}
+		</div>
         <div style="border: solid #ccc; border-width: 0 1px 1px 1px; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; padding: 20px; font-size: 16px;">
             Afin de réinitialiser votre mot de passe, merci de cliquer sur le lien suivant:
-            <a href="http://lbcalerter.com/Account/ResetPasswordConfirmation/[Token]">
+            <a href="http://lbcalerter.com/Account/ResetPasswordConfirmation/{Token}">
                 http://lbcalerter.com/Account/ResetPasswordConfirmation
             </a>
         </div>
@@ -116,24 +96,59 @@ insert into PATTERN (NAME, HTML, CONTENT) values ('LBC_RESET', 1, '<!DOCTYPE htm
 </body>
 </html>')
 
-insert into PATTERN (NAME, HTML, CONTENT) values ('LBC_RECAP', 1, '<!DOCTYPE html>
+-- Pattern de base
+
+insert into PATTERN (NAME, HTML, CONTENT) values ('LBC_AD', 1, '<!DOCTYPE html>
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <title>[Title]</title>
+    <title>{Title}</title>
     <style type="text/css">
         @import url(http://fonts.googleapis.com/css?family=Lato);
     </style>
 </head>
 <body style="font-family: Lato, sans-serif; font-weight: 500;">
     <div style="width: 600px; margin: 0 auto;">
-        <div style="background-color: #0073a3; border-top-left-radius: 4px; border-top-right-radius: 4px; padding: 20px; color: #FFF; font-size: 20px;">[Title]</div>
+        <div style="background-color: #0073a3; border-top-left-radius: 4px; border-top-right-radius: 4px; padding: 20px; color: #FFF; font-size: 20px;">
+			{Title}
+		</div>
+        <div style="border: solid #ccc; border-width: 0 1px 1px 1px; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; padding: 20px; font-size: 16px;">
+			Mise en ligne le {Date}<br />
+			{Place}<br />
+			{Price}<br />
+            <a href="{AdUrl}" target="_blank">
+                <img src="{PictureUrl}" alt="{AdUrl}" style="width:160px; height: 120px;" />
+            </a>
+        </div>
+        <div style="text-align: center; font-size: 10px;">Vous recevez cet email car vous êtes inscrit sur 
+            <a href="http://lbcalerter.com" target="_blank">LBCAlerter</a>.<br />
+            Si vous recevez trop d''email, connectez-vous à votre espace pour modifier vos recherches.
+        </div>
+    </div>
+</body>
+</html>')
+
+insert into PATTERN (NAME, HTML, CONTENT) values ('LBC_RECAP', 1, '<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>{Title}</title>
+    <style type="text/css">
+        @import url(http://fonts.googleapis.com/css?family=Lato);
+    </style>
+</head>
+<body style="font-family: Lato, sans-serif; font-weight: 500;">
+    <div style="width: 600px; margin: 0 auto;">
+        <div style="background-color: #0073a3; border-top-left-radius: 4px; border-top-right-radius: 4px; padding: 20px; color: #FFF; font-size: 20px;">
+			{Title}
+		</div>
         <div style="border: solid #ccc; border-width: 0 1px 1px 1px; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; padding: 20px; font-size: 16px; ">
-            Nombre d''annonces: [AdCount]<br />
-            Nombre de recherches: [AttemptCount] (1 toutes les [AttemptCadence] mins)<br /><br />
-            Liste des annonces du jour:<br /><br />
-            [Ads]
+            Nombre d''annonces: {AdCount}<br />
+            Nombre de recherches: {AttemptCount} (1 toutes les {AttemptCadence} mins)<br /><br />
+            Liste des annonces du jour:
+            {Ads}
         </div>
         <div style="text-align: center; font-size: 10px;">
             Vous recevez cet email car vous êtes inscrit sur
@@ -144,8 +159,87 @@ insert into PATTERN (NAME, HTML, CONTENT) values ('LBC_RECAP', 1, '<!DOCTYPE htm
 </body>
 </html>')
 
-insert into PATTERN (NAME, HTML, CONTENT) values ('LBC_RECAP_AD', 1, '[Title]<br />
-[Date], [Place], [Price]<br />
-<a href="[AdUrl]" target="_blank">
-    <img src="[PictureUrl]" alt="[AdUrl]" style="width:160px; height: 120px;" />
+insert into PATTERN (NAME, HTML, CONTENT) values ('LBC_RECAP_AD', 1, '
+<span style="font-weight: bold; display:block; padding: 20px;">{Title}</span><br />
+Mise en ligne le {Date}<br />
+{Place}<br />
+{Price}<br />
+<a href="{AdUrl}" target="_blank">
+    <img src="{PictureUrl}" alt="{AdUrl}" style="width:160px; height: 120px;" />
 </a><br />')
+
+-- Pattern complet
+
+insert into PATTERN (NAME, HTML, CONTENT) values ('LBC_AD_FULL', 1, '<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>{Title}</title>
+    <style type="text/css">
+        @import url(http://fonts.googleapis.com/css?family=Lato);
+    </style>
+</head>
+<body style="font-family: Lato, sans-serif; font-weight: 500;">
+    <div style="width: 600px; margin: 0 auto;">
+        <div style="background-color: #0073a3; border-top-left-radius: 4px; border-top-right-radius: 4px; padding: 20px; color: #FFF; font-size: 20px;">
+			{Title}
+		</div>
+        <div style="border: solid #ccc; border-width: 0 1px 1px 1px; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; padding: 20px; font-size: 16px;">
+			Mise en ligne le {Date}, par <a href="{ContactUrl}">{Name}</a> [Phone](<img src="{Phone}" alt="telephone"/>)[/Phone]<br />
+			[AllowCommercial]{Name} accepte les démarchages commerciaux<br />[/AllowCommercial]<br />
+            <a href="{AdUrl}" target="_blank">
+                <img src="{PictureUrl}" alt="{AdUrl}" style="width:160px; height: 120px;" />
+            </a>
+			{Param}<br />
+			Description:<br />
+			{Description}
+        </div>
+        <div style="text-align: center; font-size: 10px;">Vous recevez cet email car vous êtes inscrit sur 
+            <a href="http://lbcalerter.com" target="_blank">LBCAlerter</a>.<br />
+            Si vous recevez trop d''email, connectez-vous à votre espace pour modifier vos recherches.
+        </div>
+    </div>
+</body>
+</html>')
+
+insert into PATTERN (NAME, HTML, CONTENT) values ('LBC_RECAP_FULL', 1, '<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>{Title}</title>
+    <style type="text/css">
+        @import url(http://fonts.googleapis.com/css?family=Lato);
+    </style>
+</head>
+<body style="font-family: Lato, sans-serif; font-weight: 500;">
+    <div style="width: 600px; margin: 0 auto;">
+        <div style="background-color: #0073a3; border-top-left-radius: 4px; border-top-right-radius: 4px; padding: 20px; color: #FFF; font-size: 20px;">
+			{Title}
+		</div>
+        <div style="border: solid #ccc; border-width: 0 1px 1px 1px; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; padding: 20px; font-size: 16px; ">
+            Nombre d''annonces: {AdCount}<br />
+            Nombre de recherches: {AttemptCount} (1 toutes les {AttemptCadence} mins)<br /><br />
+            Liste des annonces du jour:
+            {Ads}
+        </div>
+        <div style="text-align: center; font-size: 10px;">
+            Vous recevez cet email car vous êtes inscrit sur
+            <a href="http://lbcalerter.com" target="_blank">LBCAlerter</a>.<br />
+            Si vous recevez trop d''email, connectez-vous à votre espace pour modifier vos recherches.
+        </div>
+    </div>
+</body>
+</html>')
+
+insert into PATTERN (NAME, HTML, CONTENT) values ('LBC_RECAP_AD_FULL', 1, '
+<span style="font-weight: bold; display:block; padding: 20px;">{Title}</span><br />
+Mise en ligne le {Date}, par <a href="{ContactUrl}">{Name}</a> [Phone](<img src="{Phone}" alt="telephone"/>)[/Phone]<br />
+[AllowCommercial]{Name} accepte les démarchages commerciaux<br />[/AllowCommercial]<br />
+<a href="{AdUrl}" target="_blank">
+    <img src="{PictureUrl}" alt="{AdUrl}" style="width:160px; height: 120px;" />
+</a>
+{Param}<br />
+Description:<br />
+{Description}')

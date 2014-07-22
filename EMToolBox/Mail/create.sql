@@ -35,9 +35,7 @@ CREATE TABLE SERVER(
 );
 
 
-
-insert into PATTERN (NAME, HTML, CONTENT) values ('LBC_CONFIRMATION', 1, '<!DOCTYPE html>
-
+UPDATE PATTERN SET CONTENT = '<!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
@@ -64,10 +62,10 @@ insert into PATTERN (NAME, HTML, CONTENT) values ('LBC_CONFIRMATION', 1, '<!DOCT
         </div>
     </div>
 </body>
-</html>')
+</html>'
+WHERE NAME = 'LBC_CONFIRMATION'
 
-insert into PATTERN (NAME, HTML, CONTENT) values ('LBC_RESET', 1, '<!DOCTYPE html>
-
+UPDATE PATTERN SET CONTENT = '<!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
@@ -94,12 +92,12 @@ insert into PATTERN (NAME, HTML, CONTENT) values ('LBC_RESET', 1, '<!DOCTYPE htm
         </div>
     </div>
 </body>
-</html>')
+</html>'
+WHERE NAME = 'LBC_RESET'
 
 -- Pattern de base
 
-insert into PATTERN (NAME, HTML, CONTENT) values ('LBC_AD', 1, '<!DOCTYPE html>
-
+UPDATE PATTERN SET CONTENT = '<!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
@@ -116,7 +114,7 @@ insert into PATTERN (NAME, HTML, CONTENT) values ('LBC_AD', 1, '<!DOCTYPE html>
         <div style="border: solid #ccc; border-width: 0 1px 1px 1px; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; padding: 20px; font-size: 16px;">
 			Mise en ligne le {Date}<br />
 			{Place}<br />
-			{Price}<br />
+			{Price}<br /><br />
             <a href="{AdUrl}" target="_blank">
                 <img src="{PictureUrl}" alt="{AdUrl}" style="width:160px; height: 120px;" />
             </a>
@@ -127,10 +125,10 @@ insert into PATTERN (NAME, HTML, CONTENT) values ('LBC_AD', 1, '<!DOCTYPE html>
         </div>
     </div>
 </body>
-</html>')
+</html>'
+WHERE NAME = 'LBC_AD'
 
-insert into PATTERN (NAME, HTML, CONTENT) values ('LBC_RECAP', 1, '<!DOCTYPE html>
-
+UPDATE PATTERN SET CONTENT = '<!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
@@ -157,21 +155,21 @@ insert into PATTERN (NAME, HTML, CONTENT) values ('LBC_RECAP', 1, '<!DOCTYPE htm
         </div>
     </div>
 </body>
-</html>')
+</html>'
+WHERE NAME = 'LBC_RECAP'
 
-insert into PATTERN (NAME, HTML, CONTENT) values ('LBC_RECAP_AD', 1, '
-<span style="font-weight: bold; display:block; padding: 20px;">{Title}</span><br />
+UPDATE PATTERN SET CONTENT = '<span style="font-weight: bold; display:block; padding: 20px;">{Title}</span><br />
 Mise en ligne le {Date}<br />
 {Place}<br />
-{Price}<br />
+{Price}<br /><br />
 <a href="{AdUrl}" target="_blank">
     <img src="{PictureUrl}" alt="{AdUrl}" style="width:160px; height: 120px;" />
-</a><br />')
+</a>'
+WHERE NAME = 'LBC_RECAP_AD'
 
 -- Pattern complet
 
-insert into PATTERN (NAME, HTML, CONTENT) values ('LBC_AD_FULL', 1, '<!DOCTYPE html>
-
+UPDATE PATTERN SET CONTENT = '<!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
@@ -187,11 +185,11 @@ insert into PATTERN (NAME, HTML, CONTENT) values ('LBC_AD_FULL', 1, '<!DOCTYPE h
 		</div>
         <div style="border: solid #ccc; border-width: 0 1px 1px 1px; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; padding: 20px; font-size: 16px;">
 			Mise en ligne le {Date}, par <a href="{ContactUrl}">{Name}</a> [Phone](<img src="{Phone}" alt="telephone"/>)[/Phone]<br />
-			[AllowCommercial]{Name} accepte les démarchages commerciaux<br />[/AllowCommercial]<br />
+			[AllowCommercial]{Name} accepte les démarchages commerciaux<br />[/AllowCommercial]<br /><br />
             <a href="{AdUrl}" target="_blank">
                 <img src="{PictureUrl}" alt="{AdUrl}" style="width:160px; height: 120px;" />
-            </a>
-			{Param}<br />
+            </a><br />
+			{Param}<br /><br />
 			Description:<br />
 			{Description}
         </div>
@@ -201,10 +199,10 @@ insert into PATTERN (NAME, HTML, CONTENT) values ('LBC_AD_FULL', 1, '<!DOCTYPE h
         </div>
     </div>
 </body>
-</html>')
+</html>'
+WHERE NAME = 'LBC_AD_FULL'
 
-insert into PATTERN (NAME, HTML, CONTENT) values ('LBC_RECAP_FULL', 1, '<!DOCTYPE html>
-
+UPDATE PATTERN SET CONTENT = '<!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
@@ -231,15 +229,16 @@ insert into PATTERN (NAME, HTML, CONTENT) values ('LBC_RECAP_FULL', 1, '<!DOCTYP
         </div>
     </div>
 </body>
-</html>')
+</html>'
+WHERE NAME = 'LBC_RECAP_FULL'
 
-insert into PATTERN (NAME, HTML, CONTENT) values ('LBC_RECAP_AD_FULL', 1, '
-<span style="font-weight: bold; display:block; padding: 20px;">{Title}</span><br />
+UPDATE PATTERN SET CONTENT = '<span style="font-weight: bold; display:block; padding: 20px;">{Title}</span><br />
 Mise en ligne le {Date}, par <a href="{ContactUrl}">{Name}</a> [Phone](<img src="{Phone}" alt="telephone"/>)[/Phone]<br />
-[AllowCommercial]{Name} accepte les démarchages commerciaux<br />[/AllowCommercial]<br />
+[AllowCommercial]{Name} accepte les démarchages commerciaux<br />[/AllowCommercial]<br /><br />
 <a href="{AdUrl}" target="_blank">
     <img src="{PictureUrl}" alt="{AdUrl}" style="width:160px; height: 120px;" />
-</a>
-{Param}<br />
+</a><br />
+{Param}<br /><br />
 Description:<br />
-{Description}')
+{Description}'
+WHERE NAME = 'LBC_RECAP_AD_FULL'

@@ -10,17 +10,58 @@ namespace EMToolBox
 {
     public static class FormattableObject
     {
-        public static string ToString(this object anObject, string aFormat)
+        private static Regex regValue = new Regex(@"({)([^}]+)(})", RegexOptions.IgnoreCase);
+        private static Regex regConditionnal = new Regex(@"\[(?<tag>\w*)\](?<text>.*)\[/\k<tag>\]", RegexOptions.IgnoreCase);
+        private static Regex regDuplicate = new Regex(@"\#(?<tag>\w*)\#(?<text>.*)\#/\k<tag>\#", RegexOptions.IgnoreCase);
+
+        private static void GetParamByReflexion(object source, string paramName, out Type retrievedType, out object retrievedObject)
         {
-            return FormattableObject.ToString(anObject, aFormat, null);
+            Type type = source.GetType();
+
+            retrievedType = null;
+            retrievedObject = null;
+
+            //first try properties
+            PropertyInfo retrievedProperty = type.GetProperty(paramName);
+            if (retrievedProperty != null)
+            {
+                retrievedType = retrievedProperty.PropertyType;
+                retrievedObject = retrievedProperty.GetValue(source, null);
+            }
+            else //try fields
+            {
+                FieldInfo retrievedField = type.GetField(paramName);
+                if (retrievedField != null)
+                {
+                    retrievedType = retrievedField.FieldType;
+                    retrievedObject = retrievedField.GetValue(source);
+                }
+            }
         }
 
-        public static string ToString(this object anObject, string aFormat, IFormatProvider formatProvider)
+        private static string FormatReflexion(Type retrievedType, object retrievedObject, string toFormat, IFormatProvider formatProvider)
+        {
+            if (toFormat == String.Empty) //no format info
+            {
+                return retrievedType.InvokeMember("ToString",
+                  BindingFlags.Public | BindingFlags.NonPublic |
+                  BindingFlags.Instance | BindingFlags.InvokeMethod | BindingFlags.IgnoreCase
+                  , null, retrievedObject, null) as string;
+            }
+            else //format info
+            {
+                return retrievedType.InvokeMember("ToString",
+                  BindingFlags.Public | BindingFlags.NonPublic |
+                  BindingFlags.Instance | BindingFlags.InvokeMethod | BindingFlags.IgnoreCase
+                  , null, retrievedObject, new object[] { toFormat, formatProvider }) as string;
+            }
+        }
+        
+        private static string FormatValue(this object source, string aFormat, IFormatProvider formatProvider)
         {
             StringBuilder sb = new StringBuilder();
-            Type type = anObject.GetType();
-            Regex reg = new Regex(@"({)([^}]+)(})", RegexOptions.IgnoreCase);
-            MatchCollection mc = reg.Matches(aFormat);
+            
+            MatchCollection mc = regValue.Matches(aFormat);
             int startIndex = 0;
             foreach (Match m in mc)
             {
@@ -41,42 +82,13 @@ namespace EMToolBox
                     toFormat = g.Value.Substring(formatIndex + 1);
                 }
 
-                //first try properties
-                PropertyInfo retrievedProperty = type.GetProperty(toGet);
-                Type retrievedType = null;
-                object retrievedObject = null;
-                if (retrievedProperty != null)
-                {
-                    retrievedType = retrievedProperty.PropertyType;
-                    retrievedObject = retrievedProperty.GetValue(anObject, null);
-                }
-                else //try fields
-                {
-                    FieldInfo retrievedField = type.GetField(toGet);
-                    if (retrievedField != null)
-                    {
-                        retrievedType = retrievedField.FieldType;
-                        retrievedObject = retrievedField.GetValue(anObject);
-                    }
-                }
+                Type retrievedType;
+                object retrievedObject;
+                GetParamByReflexion(source, toGet, out retrievedType, out retrievedObject);
 
                 if (retrievedType != null) //Cool, we found something
                 {
-                    string result = String.Empty;
-                    if (toFormat == String.Empty) //no format info
-                    {
-                        result = retrievedType.InvokeMember("ToString",
-                          BindingFlags.Public | BindingFlags.NonPublic |
-                          BindingFlags.Instance | BindingFlags.InvokeMethod | BindingFlags.IgnoreCase
-                          , null, retrievedObject, null) as string;
-                    }
-                    else //format info
-                    {
-                        result = retrievedType.InvokeMember("ToString",
-                          BindingFlags.Public | BindingFlags.NonPublic |
-                          BindingFlags.Instance | BindingFlags.InvokeMethod | BindingFlags.IgnoreCase
-                          , null, retrievedObject, new object[] { toFormat, formatProvider }) as string;
-                    }
+                    string result = FormatReflexion(retrievedType, retrievedObject, toFormat, formatProvider);
                     sb.Append(result);
                 }
                 else //didn't find a property with that name, so be gracious and put it back
@@ -92,6 +104,98 @@ namespace EMToolBox
                 sb.Append(aFormat.Substring(startIndex));
             }
             return sb.ToString();
+        }
+
+        private static string FormatConditionnalblock(this object source, string aFormat)
+        {
+            MatchCollection mc = regConditionnal.Matches(aFormat);
+            foreach (Match m in mc)
+            {
+                //Get param name 
+                string paramName = m.Groups["tag"].Value;
+                bool nega = paramName.StartsWith("NOT_");
+                paramName = paramName.Replace("NOT_", "");
+
+                Type retrievedType;
+                object retrievedObject;
+                GetParamByReflexion(source, paramName, out retrievedType, out retrievedObject);
+
+                if (retrievedType != null) //Cool, we found something
+                {
+                    string result = FormatReflexion(retrievedType, retrievedObject, String.Empty, null);
+
+                    if (!nega)
+                    {
+                        if (!String.IsNullOrEmpty(result) && result != "False")
+                        {
+                            aFormat = aFormat.Replace(m.Groups[0].Value, m.Groups[2].Value);
+                        }
+                        else
+                        {
+                            aFormat = aFormat.Replace(m.Groups[0].Value, "");
+                        }
+                    }
+                    else
+                    {
+                        if (String.IsNullOrEmpty(result) || result == "False")
+                        {
+                            aFormat = aFormat.Replace(m.Groups[0].Value, m.Groups[2].Value);
+                        }
+                        else
+                        {
+                            aFormat = aFormat.Replace(m.Groups[0].Value, "");
+                        }
+                    }
+                }
+            }
+
+            return aFormat;
+        }
+
+        private static string FormatDuplicate(this object source, string aFormat)
+        {
+            MatchCollection mc = regDuplicate.Matches(aFormat);
+            foreach (Match m in mc)
+            {
+                //Get param name 
+                string paramName = m.Groups["tag"].Value;
+
+                Type retrievedType;
+                object retrievedObject;
+                GetParamByReflexion(source, paramName, out retrievedType, out retrievedObject);
+
+                if (retrievedType != null) //Cool, we found something
+                {
+                    string result = FormatReflexion(retrievedType, retrievedObject, String.Empty, null);
+
+                    string toDuplicate = m.Groups[2].Value;
+
+                    var values = result.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                    string duplicate = "";
+                    foreach (string value in values)
+                    {
+                        duplicate += toDuplicate.Replace("{" + paramName + "}", value);
+                    }
+
+                    aFormat = aFormat.Replace(m.Groups[0].Value, duplicate);
+                }
+            }
+
+            return aFormat;
+        }
+
+        public static string ToString(this object source, string aFormat)
+        {
+            return FormattableObject.ToString(source, aFormat, null);
+        }
+
+        public static string ToString(this object source, string aFormat, IFormatProvider formatProvider)
+        {
+            aFormat = FormatConditionnalblock(source, aFormat);
+            aFormat = FormatDuplicate(source, aFormat);
+            aFormat = FormatValue(source, aFormat, formatProvider);
+
+            return aFormat;
         }
     }
 }

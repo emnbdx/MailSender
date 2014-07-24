@@ -90,18 +90,42 @@ namespace EMToolBox.Mail
         /// <param name="subject"></param>
         /// <param name="to"></param>
         /// <param name="pattern"></param>
-        /// <param name="parameters"></param>
+        /// <param name="source"></param>
         public void Add(String subject, String to, String pattern, object source)
         {
             PATTERN pat = GetPattern(pattern);
-            Formater formater = new Formater(source, pat.CONTENT);
+            MailFormater formater = new MailFormater(pat.CONTENT, source);
 
             _context.QUEUE.Add(new QUEUE()
             {
                 PATTERN = pat,
                 SUBJECT = subject,
                 TO = to,
-                BODY = formater.GetFormated(),
+                BODY = formater.Formated,
+                CREATIONDATE = DateTime.Now
+            });
+
+            _context.SaveChanges();
+        }
+        
+        /// <summary>
+        /// Add Mail to queue
+        /// </summary>
+        /// <param name="subject"></param>
+        /// <param name="to"></param>
+        /// <param name="pattern"></param>
+        /// <param name="optParams"></param>
+        public void Add(String subject, String to, String pattern, object source, Dictionary<String, object> optParams)
+        {
+            PATTERN pat = GetPattern(pattern);
+            MailFormater formater = new MailFormater(pat.CONTENT, optParams);
+
+            _context.QUEUE.Add(new QUEUE()
+            {
+                PATTERN = pat,
+                SUBJECT = subject,
+                TO = to,
+                BODY = formater.Formated,
                 CREATIONDATE = DateTime.Now
             });
 

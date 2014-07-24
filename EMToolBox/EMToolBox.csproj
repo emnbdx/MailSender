@@ -46,7 +46,6 @@
     <Compile Include="Job\JobLauncher.cs" />
     <Compile Include="Job\RandomJobLauncher.cs" />
     <Compile Include="License\Constant.cs" />
-    <Compile Include="Mail\Formater.cs" />
     <Compile Include="Mail\mail.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -62,6 +61,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>mail.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Mail\MailFormater.cs" />
     <Compile Include="Mail\PATTERN.cs">
       <DependentUpon>mail.tt</DependentUpon>
     </Compile>

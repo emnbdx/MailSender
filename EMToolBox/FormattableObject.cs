@@ -1,4 +1,5 @@
-﻿using System;
+﻿using log4net;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -10,6 +11,8 @@ namespace EMToolBox
 {
     public static class FormattableObject
     {
+        private static ILog log = LogManager.GetLogger(typeof(FormattableObject));
+        
         private static Regex regValue = new Regex(@"({)([^}]+)(})", RegexOptions.IgnoreCase);
         private static Regex regConditionnal = new Regex(@"\[(?<tag>\w*)\](?<text>.*)\[/\k<tag>\]", RegexOptions.IgnoreCase);
         private static Regex regDuplicate = new Regex(@"\#(?<tag>\w*)\#(?<text>.*)\#/\k<tag>\#", RegexOptions.IgnoreCase);
@@ -39,21 +42,29 @@ namespace EMToolBox
             }
         }
 
-        private static string FormatReflexion(Type retrievedType, object retrievedObject, string toFormat, IFormatProvider formatProvider)
+        private static string FormatReflexion(String paramName, Type retrievedType, object retrievedObject, string toFormat, IFormatProvider formatProvider)
         {
-            if (toFormat == String.Empty) //no format info
+            try
             {
-                return retrievedType.InvokeMember("ToString",
-                  BindingFlags.Public | BindingFlags.NonPublic |
-                  BindingFlags.Instance | BindingFlags.InvokeMethod | BindingFlags.IgnoreCase
-                  , null, retrievedObject, null) as string;
+                if (toFormat == String.Empty) //no format info
+                {
+                    return retrievedType.InvokeMember("ToString",
+                      BindingFlags.Public | BindingFlags.NonPublic |
+                      BindingFlags.Instance | BindingFlags.InvokeMethod | BindingFlags.IgnoreCase
+                      , null, retrievedObject, null) as string;
+                }
+                else //format info
+                {
+                    return retrievedType.InvokeMember("ToString",
+                      BindingFlags.Public | BindingFlags.NonPublic |
+                      BindingFlags.Instance | BindingFlags.InvokeMethod | BindingFlags.IgnoreCase
+                      , null, retrievedObject, new object[] { toFormat, formatProvider }) as string;
+                }
             }
-            else //format info
+            catch (Exception e)
             {
-                return retrievedType.InvokeMember("ToString",
-                  BindingFlags.Public | BindingFlags.NonPublic |
-                  BindingFlags.Instance | BindingFlags.InvokeMethod | BindingFlags.IgnoreCase
-                  , null, retrievedObject, new object[] { toFormat, formatProvider }) as string;
+                log.Error("Erreur lors de la récupération du paramètre [" + paramName + "]", e);
+                return String.Empty;
             }
         }
         
@@ -88,7 +99,7 @@ namespace EMToolBox
 
                 if (retrievedType != null) //Cool, we found something
                 {
-                    string result = FormatReflexion(retrievedType, retrievedObject, toFormat, formatProvider);
+                    string result = FormatReflexion(toGet, retrievedType, retrievedObject, toFormat, formatProvider);
                     sb.Append(result);
                 }
                 else //didn't find a property with that name, so be gracious and put it back
@@ -122,7 +133,7 @@ namespace EMToolBox
 
                 if (retrievedType != null) //Cool, we found something
                 {
-                    string result = FormatReflexion(retrievedType, retrievedObject, String.Empty, null);
+                    string result = FormatReflexion(paramName, retrievedType, retrievedObject, String.Empty, null);
 
                     if (!nega)
                     {
@@ -166,7 +177,7 @@ namespace EMToolBox
 
                 if (retrievedType != null) //Cool, we found something
                 {
-                    string result = FormatReflexion(retrievedType, retrievedObject, String.Empty, null);
+                    string result = FormatReflexion(paramName, retrievedType, retrievedObject, String.Empty, null);
 
                     string toDuplicate = m.Groups[2].Value;
 

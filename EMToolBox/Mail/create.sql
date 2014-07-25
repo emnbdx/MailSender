@@ -162,8 +162,8 @@ UPDATE PATTERN SET CONTENT = '<span style="font-weight: bold; display:block; pad
 Mise en ligne le {Date}<br />
 {Place}<br />
 {Price}<br /><br />
-<a href="{AdUrl}" target="_blank">
-    <img src="{PictureUrl}" alt="{AdUrl}" style="width:160px; height: 120px;" />
+<a href="{Url}" target="_blank">
+    <img src="{PictureUrl}" alt="{Url}" style="width:160px; height: 120px;" />
 </a>'
 WHERE NAME = 'LBC_RECAP_AD'
 
@@ -237,8 +237,8 @@ UPDATE PATTERN SET CONTENT = '<span style="font-weight: bold; display:block; pad
 Mise en ligne le {Date}, par <a href="{ContactUrl}">{Name}</a> [Phone](<img src="{Phone}" alt="telephone"/>)[/Phone]<br />
 [AllowCommercial]{Name} accepte les démarchages commerciaux<br />[/AllowCommercial]
 [NOT_AllowCommercial]{Name} refuse les démarchages commerciaux<br />[/NOT_AllowCommercial]<br /><br />
-<a href="{AdUrl}" target="_blank">
-    #PictureUrl#<img src="{PictureUrl}" alt="{AdUrl}" style="width:160px; height: 120px;" />#/PictureUrl#
+<a href="{Url}" target="_blank">
+    #PictureUrl#<img src="{PictureUrl}" alt="{Url}" style="width:160px; height: 120px;" />#/PictureUrl#
 </a><br />
 #Param#{Param}<br />#/Param#<br />
 Description:<br />

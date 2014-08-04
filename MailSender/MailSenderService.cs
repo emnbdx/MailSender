@@ -26,6 +26,8 @@ namespace MailSender
         {
             base.Process();
             _mailer.Send();
+
+            GC.Collect();
         }
     }
 }

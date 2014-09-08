@@ -184,9 +184,7 @@ UPDATE PATTERN SET CONTENT = '<!DOCTYPE html>
 			{Title}
 		</div>
         <div style="border: solid #ccc; border-width: 0 1px 1px 1px; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; padding: 20px; font-size: 16px;">
-			Mise en ligne le {Date}, par <a href="{ContactUrl}">{Name}</a> [Phone](<img src="{Phone}" alt="telephone"/>)[/Phone]<br />
-			[AllowCommercial]{Name} accepte les démarchages commerciaux<br />[/AllowCommercial]
-			[NOT_AllowCommercial]{Name} refuse les démarchages commerciaux<br />[/NOT_AllowCommercial]<br /><br />
+			Mise en ligne le {Date}, par <a href="{ContactUrl}">{Name}</a> [Phone](<img src="{Phone}" alt="telephone"/>)[/Phone]<br /><br />
             <a href="{AdUrl}" target="_blank">
                 #PictureUrl#<img src="{PictureUrl}" alt="{AdUrl}" style="width:160px; height: 120px;" />#/PictureUrl#
             </a><br />
@@ -234,9 +232,7 @@ UPDATE PATTERN SET CONTENT = '<!DOCTYPE html>
 WHERE NAME = 'LBC_RECAP_FULL'
 
 UPDATE PATTERN SET CONTENT = '<span style="font-weight: bold; display:block; padding: 20px;">{Title}</span><br />
-Mise en ligne le {Date}, par <a href="{ContactUrl}">{Name}</a> [Phone](<img src="{Phone}" alt="telephone"/>)[/Phone]<br />
-[AllowCommercial]{Name} accepte les démarchages commerciaux<br />[/AllowCommercial]
-[NOT_AllowCommercial]{Name} refuse les démarchages commerciaux<br />[/NOT_AllowCommercial]<br /><br />
+Mise en ligne le {Date}, par <a href="{ContactUrl}">{Name}</a> [Phone](<img src="{Phone}" alt="telephone"/>)[/Phone]<br /><br />
 <a href="{Url}" target="_blank">
     #PictureUrl#<img src="{PictureUrl}" alt="{Url}" style="width:160px; height: 120px;" />#/PictureUrl#
 </a><br />

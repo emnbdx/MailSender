@@ -116,7 +116,7 @@ UPDATE PATTERN SET CONTENT = '<!DOCTYPE html>
 			{Place}<br />
 			{Price}<br /><br />
             <a href="{AdUrl}" target="_blank">
-                <img src="{PictureUrl}" alt="{AdUrl}" style="width:160px; height: 120px;" />
+                <img src="{PictureUrl}" alt="{Title}" style="width:160px; height: 120px;" />
             </a>
         </div>
         <div style="text-align: center; font-size: 10px;">Vous recevez cet email car vous êtes inscrit sur 
@@ -163,7 +163,7 @@ Mise en ligne le {Date}<br />
 {Place}<br />
 {Price}<br /><br />
 <a href="{Url}" target="_blank">
-    <img src="{PictureUrl}" alt="{Url}" style="width:160px; height: 120px;" />
+    <img src="{PictureUrl}" alt="{Title}" style="width:160px; height: 120px;" />
 </a>'
 WHERE NAME = 'LBC_RECAP_AD'
 
@@ -186,7 +186,7 @@ UPDATE PATTERN SET CONTENT = '<!DOCTYPE html>
         <div style="border: solid #ccc; border-width: 0 1px 1px 1px; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; padding: 20px; font-size: 16px;">
 			Mise en ligne le {Date}, par <a href="{ContactUrl}">{Name}</a> [Phone](<img src="{Phone}" alt="telephone"/>)[/Phone]<br /><br />
             <a href="{AdUrl}" target="_blank">
-                #PictureUrl#<img src="{PictureUrl}" alt="{AdUrl}" style="width:160px; height: 120px;" />#/PictureUrl#
+                #PictureUrl#<img src="{PictureUrl}" alt="{Title}" style="width:160px; height: 120px;" />#/PictureUrl#
             </a><br />
 			#Param#{Param}<br />#/Param#<br />
 			Description:<br />
@@ -234,7 +234,7 @@ WHERE NAME = 'LBC_RECAP_FULL'
 UPDATE PATTERN SET CONTENT = '<span style="font-weight: bold; display:block; padding: 20px;">{Title}</span><br />
 Mise en ligne le {Date}, par <a href="{ContactUrl}">{Name}</a> [Phone](<img src="{Phone}" alt="telephone"/>)[/Phone]<br /><br />
 <a href="{Url}" target="_blank">
-    #PictureUrl#<img src="{PictureUrl}" alt="{Url}" style="width:160px; height: 120px;" />#/PictureUrl#
+    #PictureUrl#<img src="{PictureUrl}" alt="{Title}" style="width:160px; height: 120px;" />#/PictureUrl#
 </a><br />
 #Param#{Param}<br />#/Param#<br />
 Description:<br />

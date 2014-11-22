@@ -121,7 +121,8 @@ UPDATE PATTERN SET CONTENT = '<!DOCTYPE html>
         </div>
         <div style="text-align: center; font-size: 10px;">Vous recevez cet email car vous êtes inscrit sur 
             <a href="http://lbcalerter.com" target="_blank">LBCAlerter</a>.<br />
-            Si vous recevez trop d''email, connectez-vous à votre espace pour modifier vos recherches.
+            Si vous recevez trop d''email, connectez-vous à votre espace pour modifier vos recherches, 
+			ou cliquez <a href="http://lbcalerter.com/Search/Disable?id={SearchId}&adId={Id}" target="_blank">ici</a> pour désactiver cette alerte.
         </div>
     </div>
 </body>
@@ -151,7 +152,8 @@ UPDATE PATTERN SET CONTENT = '<!DOCTYPE html>
         <div style="text-align: center; font-size: 10px;">
             Vous recevez cet email car vous êtes inscrit sur
             <a href="http://lbcalerter.com" target="_blank">LBCAlerter</a>.<br />
-            Si vous recevez trop d''email, connectez-vous à votre espace pour modifier vos recherches.
+            Si vous recevez trop d''email, connectez-vous à votre espace pour modifier vos recherches, 
+			ou cliquez <a href="http://lbcalerter.com/Search/Disable?id={Id}&adId={AdId}" target="_blank">ici</a> pour désactiver cette alerte.
         </div>
     </div>
 </body>
@@ -194,7 +196,8 @@ UPDATE PATTERN SET CONTENT = '<!DOCTYPE html>
         </div>
         <div style="text-align: center; font-size: 10px;">Vous recevez cet email car vous êtes inscrit sur 
             <a href="http://lbcalerter.com" target="_blank">LBCAlerter</a>.<br />
-            Si vous recevez trop d''email, connectez-vous à votre espace pour modifier vos recherches.
+            Si vous recevez trop d''email, connectez-vous à votre espace pour modifier vos recherches, 
+			ou cliquez <a href="http://lbcalerter.com/Search/Disable?id={SearchId}&adId={Id}" target="_blank">ici</a> pour désactiver cette alerte.
         </div>
     </div>
 </body>
@@ -224,7 +227,8 @@ UPDATE PATTERN SET CONTENT = '<!DOCTYPE html>
         <div style="text-align: center; font-size: 10px;">
             Vous recevez cet email car vous êtes inscrit sur
             <a href="http://lbcalerter.com" target="_blank">LBCAlerter</a>.<br />
-            Si vous recevez trop d''email, connectez-vous à votre espace pour modifier vos recherches.
+            Si vous recevez trop d''email, connectez-vous à votre espace pour modifier vos recherches, 
+			ou cliquez <a href="http://lbcalerter.com/Search/Disable?id={Id}&adId={AdId}" target="_blank">ici</a> pour désactiver cette alerte.
         </div>
     </div>
 </body>

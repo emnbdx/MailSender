@@ -1,111 +1,113 @@
-﻿using log4net;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity.Validation;
-using System.IO;
-using System.Linq;
-using System.Net.Mail;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="EMMail.cs" company="Eddy MONTUS">
+//   2014
+// </copyright>
+// <summary>
+//   Defines the EmMail type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace EMToolBox.Mail
 {
-    public class EMMail
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net.Mail;
+
+    using log4net;
+
+    /// <summary>
+    /// Manage mail, use Add to store mail to database, then send to consume queue
+    /// </summary>
+    public class EmMail
     {
-        private ILog log = LogManager.GetLogger(typeof(EMMail));
-        
-        private EMMAILEntities _context = new EMMAILEntities();
+        /// <summary>
+        /// The log.
+        /// </summary>
+        private readonly ILog log = LogManager.GetLogger(typeof(EmMail));
 
-        private List<PATTERN> _patterns;
+        /// <summary>
+        /// The _context.
+        /// </summary>
+        private readonly EMMAILEntities context = new EMMAILEntities();
 
-        private List<PATTERN> Pattern
+        /// <summary>
+        /// The patterns.
+        /// </summary>
+        private List<PATTERN> patterns;
+
+        /// <summary>
+        /// The servers.
+        /// </summary>
+        private List<SERVER> servers;
+
+        /// <summary>
+        /// Gets the pattern.
+        /// </summary>
+        private IEnumerable<PATTERN> Pattern
         {
             get
             {
-                if (_patterns == null)
-                    _patterns = _context.PATTERN.ToList();
-                return _patterns;
+                return this.patterns ?? (this.patterns = this.context.PATTERN.ToList());
             }
-            set { _patterns = value; }
         }
 
-        private List<SERVER> _servers;
-
-        private List<SERVER> Server
+        /// <summary>
+        /// Gets the server.
+        /// </summary>
+        private IEnumerable<SERVER> Server
         {
             get
             {
-                if (_servers == null)
-                    _servers = _context.SERVER.Where(entry => entry.ENABLE == true).ToList();
-                return _servers;
-            }
-            set { _servers = value; }
-        }
-        
-
-        private void Send(QUEUE element)
-        {
-            foreach (SERVER server in Server)
-            {
-                try
-                {
-                    MailMessage message = new MailMessage();
-
-                    message.From = new MailAddress(server.LOGIN);
-                    message.To.Add(element.TO);
-                    message.Subject = element.SUBJECT;
-                    message.IsBodyHtml = element.PATTERN.HTML;
-                    message.Body = element.BODY;
-
-                    using (SmtpClient smtp = new SmtpClient(server.IP, server.PORT))
-                    {
-                        if (server.SSL)
-                            smtp.EnableSsl = true;
-                        if (!String.IsNullOrEmpty(server.LOGIN) && !String.IsNullOrEmpty(server.PASSWORD))
-                            smtp.Credentials = new System.Net.NetworkCredential(server.LOGIN, server.PASSWORD);
-                        smtp.Send(message);
-                    }
-
-                    element.SEND = true;
-                    element.SENDDATE = DateTime.Now;
-
-                    _context.SaveChanges();
-                }
-                catch (Exception e)
-                {
-                    throw new Exception("Error when sending email", e);
-                }
+                return this.servers ?? (this.servers = this.context.SERVER.Where(entry => entry.ENABLE).ToList());
             }
         }
 
+        /// <summary>
+        /// The get pattern.
+        /// </summary>
+        /// <param name="name">
+        /// The name.
+        /// </param>
+        /// <returns>
+        /// The <see cref="PATTERN"/>.
+        /// </returns>
         public PATTERN GetPattern(string name)
         {
-            return Pattern.First(entry => entry.NAME == name);
+            return this.Pattern.First(entry => entry.NAME == name);
         }
 
         /// <summary>
         /// Add Mail to queue
         /// </summary>
-        /// <param name="subject"></param>
-        /// <param name="to"></param>
-        /// <param name="pattern"></param>
-        /// <param name="source"></param>
-        public void Add(String subject, String to, String pattern, object source)
+        /// <param name="subject">
+        /// Mail subject
+        /// </param>
+        /// <param name="to">
+        /// Receiver of mail
+        /// </param>
+        /// <param name="pattern">
+        /// Mail pattern
+        /// </param>
+        /// <param name="source">
+        /// Object use to replace tag in mail
+        /// </param>
+        public void Add(string subject, string to, string pattern, object source)
         {
-            PATTERN pat = GetPattern(pattern);
-            MailFormater formater = new MailFormater(pat.CONTENT, source);
+            var pat = this.GetPattern(pattern);
+            var formater = new MailFormatter(pat.CONTENT, source);
 
-            _context.QUEUE.Add(new QUEUE()
-            {
-                PATTERN = pat,
-                SUBJECT = subject,
-                TO = to,
-                BODY = formater.Formated,
-                CREATIONDATE = DateTime.Now
-            });
+            this.context.QUEUE.Add(
+                new QUEUE
+                    {
+                        PATTERN = pat,
+                        SUBJECT = subject,
+                        TO = to,
+                        BODY = formater.Formatted,
+                        CREATIONDATE = DateTime.Now
+                    });
 
-            _context.SaveChanges();
+            this.context.SaveChanges();
         }
 
         /// <summary>
@@ -113,20 +115,78 @@ namespace EMToolBox.Mail
         /// </summary>
         public void Send()
         {
-            List<QUEUE> elements = _context.QUEUE.Where(entry => entry.SEND == false).OrderBy(entry => entry.CREATIONDATE).ToList();
-            if(elements.Count > 0)
-                log.Info("Envoi de " + elements.Count + " mails...");
-            foreach (QUEUE element in elements)
+            var elements =
+                this.context.QUEUE.Where(entry => entry.SEND == false).OrderBy(entry => entry.CREATIONDATE).ToList();
+            if (elements.Count > 0)
+            {
+                this.log.Info("Envoi de " + elements.Count + " mails...");
+            }
+
+            foreach (var element in elements)
+            {
                 try
                 {
-                    Send(element);
+                    this.Send(element);
                 }
                 catch
                 {
-                    log.Error("Erreur lors de l'envoi du mail [" + element.SUBJECT + "] pour [" + element.TO + "]");
+                    this.log.Error("Erreur lors de l'envoi du mail [" + element.SUBJECT + "] pour [" + element.TO + "]");
                 }
+            }
+
             if (elements.Count > 0)
-                log.Info("OK");
+            {
+                this.log.Info("OK");
+            }
+        }
+
+        /// <summary>
+        /// The send.
+        /// </summary>
+        /// <param name="element">
+        /// The element.
+        /// </param>
+        /// <exception cref="Exception">
+        /// If error occur when sending mail
+        /// </exception>
+        private void Send(QUEUE element)
+        {
+            foreach (var server in this.Server)
+            {
+                try
+                {
+                    var message = new MailMessage { From = new MailAddress(server.LOGIN) };
+
+                    message.To.Add(element.TO);
+                    message.Subject = element.SUBJECT;
+                    message.IsBodyHtml = element.PATTERN.HTML;
+                    message.Body = element.BODY;
+
+                    using (var smtp = new SmtpClient(server.IP, server.PORT))
+                    {
+                        if (server.SSL)
+                        {
+                            smtp.EnableSsl = true;
+                        }
+
+                        if (!string.IsNullOrEmpty(server.LOGIN) && !string.IsNullOrEmpty(server.PASSWORD))
+                        {
+                            smtp.Credentials = new System.Net.NetworkCredential(server.LOGIN, server.PASSWORD);
+                        }
+
+                        smtp.Send(message);
+                    }
+
+                    element.SEND = true;
+                    element.SENDDATE = DateTime.Now;
+
+                    this.context.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    throw new Exception("Error when sending email", e);
+                }
+            }
         }
     }
 }

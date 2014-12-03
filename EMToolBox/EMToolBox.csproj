@@ -106,7 +106,6 @@
     <Compile Include="SingleFieldInputDialog.designer.cs">
       <DependentUpon>SingleFieldInputDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormattableObject.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Services\ServiceDebugDialog.resx">
@@ -131,6 +130,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\LBCAlerter\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="SKGL, Version=2.0.4.1, Culture=neutral, PublicKeyToken=6506df92444891d9, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\ThirdParty\SKGL.dll</HintPath>

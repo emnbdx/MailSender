@@ -9,9 +9,7 @@
 
 namespace EMToolBox.Mail
 {
-    using System;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.Linq;
     using System.Text;
     using System.Text.RegularExpressions;
@@ -44,102 +42,25 @@ namespace EMToolBox.Mail
         /// <param name="pattern">
         /// The pattern.
         /// </param>
-        /// <param name="source">
-        /// The source.
+        /// <param name="data">
+        /// The data as JSON representation.
         /// </param>
-        public MailFormatter(string pattern, object source)
+        public MailFormatter(string pattern, string data)
         {
-            if (source == null)
-            {
-                return;
-            }
+            var output = pattern;
 
-            if (source is Dictionary<string, object>)
-            {
-                this.Formatted = FromDictionary(pattern, source as Dictionary<string, object>);
-            }
-            else if (source is string)
-            {
-                this.Formatted = FromJson(pattern, source as string);
-            }
+            var jsonObject = JObject.Parse(data);
+            output = FormatConditionalBlock(jsonObject, output);
+            output = FormatDuplicate(jsonObject, output);
+            output = FormatValue(jsonObject, output);
+
+            this.Formatted = output;
         }
 
         /// <summary>
         /// Gets the formatted.
         /// </summary>
         public string Formatted { get; private set; }
-
-        /// <summary>
-        /// The from dictionary.
-        /// </summary>
-        /// <param name="pattern">
-        /// The pattern.
-        /// </param>
-        /// <param name="parameters">
-        /// The parameters.
-        /// </param>
-        /// <returns>
-        /// The <see cref="string"/>.
-        /// </returns>
-        private static string FromDictionary(string pattern, Dictionary<string, object> parameters)
-        {
-            var output = pattern;
-
-            foreach (var key in parameters.Keys)
-            {
-                var tmp = parameters[key];
-
-                string result;
-                if (tmp is int)
-                {
-                    result = Convert.ToInt32(tmp).ToString(CultureInfo.InvariantCulture);
-                }
-                else if (tmp is decimal)
-                {
-                    result = Convert.ToDecimal(tmp).ToString(CultureInfo.InvariantCulture);
-                }
-                else if (tmp is DateTime)
-                {
-                    result = Convert.ToDateTime(tmp).ToString("dd/MM/yyyy HH:mm:ss");
-                }
-                else if (tmp is bool)
-                {
-                    result = Convert.ToBoolean(tmp) ? "Oui" : "Non";
-                }
-                else
-                {
-                    result = Convert.ToString(tmp);
-                }
-
-                output = output.Replace(key, result);
-            }
-
-            return output;
-        }
-
-        /// <summary>
-        /// The from JSON.
-        /// </summary>
-        /// <param name="pattern">
-        /// The pattern.
-        /// </param>
-        /// <param name="json">
-        /// The JSON as string.
-        /// </param>
-        /// <returns>
-        /// The <see cref="string"/>.
-        /// </returns>
-        private static string FromJson(string pattern, string json)
-        {
-            var output = pattern;
-
-            var jsonObject = JObject.Parse(json);
-            output = FormatConditionalBlock(jsonObject, output);
-            output = FormatDuplicate(jsonObject, output);
-            output = FormatValue(jsonObject, output);
-
-            return output;
-        }
 
         /// <summary>
         /// Get value in JSON string 

@@ -89,13 +89,13 @@ namespace EMToolBox.Mail
         /// <param name="pattern">
         /// Mail pattern
         /// </param>
-        /// <param name="source">
+        /// <param name="data">
         /// Object use to replace tag in mail
         /// </param>
-        public void Add(string subject, string to, string pattern, object source)
+        public void Add(string subject, string to, string pattern, string data)
         {
             var pat = this.GetPattern(pattern);
-            var formater = new MailFormatter(pat.CONTENT, source);
+            var formater = new MailFormatter(pat.CONTENT, data);
 
             this.context.QUEUE.Add(
                 new QUEUE

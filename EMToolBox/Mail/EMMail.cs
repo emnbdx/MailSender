@@ -19,12 +19,12 @@ namespace EMToolBox.Mail
     /// <summary>
     /// Manage mail, use Add to store mail to database, then send to consume queue
     /// </summary>
-    public class EmMail
+    public class EMMail
     {
         /// <summary>
         /// The log.
         /// </summary>
-        private readonly ILog log = LogManager.GetLogger(typeof(EmMail));
+        private readonly ILog log = LogManager.GetLogger(typeof(EMMail));
 
         /// <summary>
         /// The _context.

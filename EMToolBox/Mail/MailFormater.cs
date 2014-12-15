@@ -63,50 +63,6 @@ namespace EMToolBox.Mail
         public string Formatted { get; private set; }
 
         /// <summary>
-        /// Get value in JSON string 
-        /// </summary>
-        /// <param name="source">
-        /// The source.
-        /// </param>
-        /// <param name="tag">
-        /// The tag.
-        /// </param>
-        /// <returns>
-        /// The <see>
-        ///         <cref>IEnumerable</cref>
-        ///     </see>
-        ///     .
-        /// </returns>
-        private static IEnumerable<string> GetValueFromJson(JToken source, string tag)
-        {
-            var query = tag.Split(".".ToCharArray());
-            IEnumerable<JToken> tokens;
-            var result = new List<string>();
-            if (query.Count() == 1)
-            {
-                query = tag.Split(">".ToCharArray());
-
-                if (query.Count() == 1)
-                {
-                    tokens = source.SelectTokens(query[0]);
-                    result.AddRange(tokens.Select(token => (string)token));
-                }
-                else
-                {
-                    tokens = source.SelectTokens(query[0] + "." + query[1]);
-                    result.AddRange(tokens.Select(token => (string)token));
-                }
-            }
-            else
-            {
-                tokens = source.SelectToken(query[0]).Where(x => x["Type"].ToString() == query[1]);
-                result.AddRange(tokens.Select(token => (string)token["Value"]));
-            }
-
-            return result;
-        }
-
-        /// <summary>
         /// Keep or erase block, this is used for boolean parameter
         /// </summary>
         /// <param name="source">
@@ -128,7 +84,7 @@ namespace EMToolBox.Mail
                 var nega = paramName.StartsWith("NOT_");
                 paramName = paramName.Replace("NOT_", string.Empty);
 
-                var result = GetValueFromJson(source, paramName).FirstOrDefault();
+                var result = source.GetTagValue(paramName).FirstOrDefault();
 
                 if (!nega)
                 {
@@ -177,7 +133,7 @@ namespace EMToolBox.Mail
                 // Get param name 
                 var paramName = m.Groups["tag"].Value;
 
-                var results = GetValueFromJson(source, paramName);
+                var results = source.GetTagValue(paramName);
 
                 var toDuplicate = m.Groups[2].Value;
 
@@ -213,7 +169,7 @@ namespace EMToolBox.Mail
                 var length = g.Index - startIndex - 1;
                 sb.Append(format.Substring(startIndex, length));
 
-                var result = GetValueFromJson(source, g.Value).FirstOrDefault();
+                var result = source.GetTagValue(g.Value).FirstOrDefault();
 
                 if (!string.IsNullOrEmpty(result))
                 {

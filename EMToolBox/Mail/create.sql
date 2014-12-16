@@ -113,16 +113,16 @@ UPDATE PATTERN SET CONTENT = '<!DOCTYPE html>
 		</div>
         <div style="border: solid #ccc; border-width: 0 1px 1px 1px; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; padding: 20px; font-size: 16px;">
 			Mise en ligne le {Date}<br />
-			{Contents.Place}<br />
-			{Contents.Price}<br /><br />
+			{Contents>Place}<br />
+			{Contents>Price}<br /><br />
             <a href="{Url}" target="_blank">
-                <img src="{Contents.PictureUrl}" alt="{Title}" style="width:160px; height: 120px;" />
+                <img src="{Contents>PictureUrl}" alt="{Title}" style="width:160px; height: 120px;" />
             </a>
         </div>
         <div style="text-align: center; font-size: 10px;">Vous recevez cet email car vous êtes inscrit sur 
             <a href="http://lbcalerter.com" target="_blank">LBCAlerter</a>.<br />
             Si vous recevez trop d''email, connectez-vous à votre espace pour modifier vos recherches, 
-			ou cliquez <a href="http://lbcalerter.com/Search/Disable?id={Search>ID}&adId={ID}" target="_blank">ici</a> pour désactiver cette alerte.
+			ou cliquez <a href="http://lbcalerter.com/Search/Disable?id={SearchId}&adId={Id}" target="_blank">ici</a> pour désactiver cette alerte.
         </div>
     </div>
 </body>
@@ -162,10 +162,10 @@ WHERE NAME = 'LBC_RECAP'
 
 UPDATE PATTERN SET CONTENT = '<span style="font-weight: bold; display:block; padding: 20px;">{Title}</span><br />
 Mise en ligne le {Date}<br />
-{Contents.Place}<br />
-{Contents.Price}<br /><br />
+{Contents>Place}<br />
+{Contents>Price}<br /><br />
 <a href="{Url}" target="_blank">
-    <img src="{Contents.PictureUrl}" alt="{Title}" style="width:160px; height: 120px;" />
+    <img src="{Contents>PictureUrl}" alt="{Title}" style="width:160px; height: 120px;" />
 </a>'
 WHERE NAME = 'LBC_RECAP_AD'
 
@@ -186,18 +186,18 @@ UPDATE PATTERN SET CONTENT = '<!DOCTYPE html>
 			{Title}
 		</div>
         <div style="border: solid #ccc; border-width: 0 1px 1px 1px; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; padding: 20px; font-size: 16px;">
-			Mise en ligne le {Date}, par <a href="{Contents.ContactUrl}">{Contents.Name}</a> [Contents.Phone](<img src="{Contents.Phone}" alt="telephone"/>)[/Contents.Phone]<br /><br />
-            <a href="{Contents.Url}" target="_blank">
-                #Contents.PictureUrl#<img src="{Contents.PictureUrl}" alt="{Title}" style="width:160px; height: 120px;" />#/Contents.PictureUrl#
+			Mise en ligne le {Date}, par <a href="{Contents>ContactUrl}">{Contents>Name}</a> [Contents>Phone](<img src="{Contents>Phone}" alt="telephone"/>)[/Contents>Phone]<br /><br />
+            <a href="{Url}" target="_blank">
+                #Contents>PictureUrl#<img src="{Contents>PictureUrl}" alt="{Title}" style="width:160px; height: 120px;" />#/Contents>PictureUrl#
             </a><br />
-			#Contents.Param#{Contents.Param}<br />#/Contents.Param#<br />
+			#Contents>Param#{Contents>Param}<br />#/Contents>Param#<br />
 			Description:<br />
-			{Contents.Description}
+			{Contents>Description}
         </div>
         <div style="text-align: center; font-size: 10px;">Vous recevez cet email car vous êtes inscrit sur 
             <a href="http://lbcalerter.com" target="_blank">LBCAlerter</a>.<br />
             Si vous recevez trop d''email, connectez-vous à votre espace pour modifier vos recherches, 
-			ou cliquez <a href="http://lbcalerter.com/Search/Disable?id={Search>ID}&adId={ID}" target="_blank">ici</a> pour désactiver cette alerte.
+			ou cliquez <a href="http://lbcalerter.com/Search/Disable?id={SearchId}&adId={Id}" target="_blank">ici</a> pour désactiver cette alerte.
         </div>
     </div>
 </body>
@@ -236,11 +236,11 @@ UPDATE PATTERN SET CONTENT = '<!DOCTYPE html>
 WHERE NAME = 'LBC_RECAP_FULL'
 
 UPDATE PATTERN SET CONTENT = '<span style="font-weight: bold; display:block; padding: 20px;">{Title}</span><br />
-Mise en ligne le {Date}, par <a href="{Contents.ContactUrl}">{Contents.Name}</a> [Contents.Phone](<img src="{Contents.Phone}" alt="telephone"/>)[/Contents.Phone]<br /><br />
+Mise en ligne le {Date}, par <a href="{Contents>ContactUrl}">{Contents>Name}</a> [Contents>Phone](<img src="{Contents>Phone}" alt="telephone"/>)[/Contents>Phone]<br /><br />
 <a href="{Url}" target="_blank">
-    #Contents.PictureUrl#<img src="{Contents.PictureUrl}" alt="{Title}" style="width:160px; height: 120px;" />#/Contents.PictureUrl#
+    #Contents>PictureUrl#<img src="{Contents>PictureUrl}" alt="{Title}" style="width:160px; height: 120px;" />#/Contents>PictureUrl#
 </a><br />
-#Contents.Param#{Contents.Param}<br />#/Contents.Param#<br />
+#Contents>Param#{Contents>Param}<br />#/Contents>Param#<br />
 Description:<br />
-{Contents.Description}'
+{Contents>Description}'
 WHERE NAME = 'LBC_RECAP_AD_FULL'

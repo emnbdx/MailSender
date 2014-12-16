@@ -84,7 +84,7 @@ namespace EMToolBox.Mail
                 var nega = paramName.StartsWith("NOT_");
                 paramName = paramName.Replace("NOT_", string.Empty);
 
-                var result = source.GetTagValue(paramName).FirstOrDefault();
+                var result = source.GetTokenValue(paramName).FirstOrDefault();
 
                 if (!nega)
                 {
@@ -133,7 +133,7 @@ namespace EMToolBox.Mail
                 // Get param name 
                 var paramName = m.Groups["tag"].Value;
 
-                var results = source.GetTagValue(paramName);
+                var results = source.GetTokenValue(paramName);
 
                 var toDuplicate = m.Groups[2].Value;
 
@@ -169,15 +169,11 @@ namespace EMToolBox.Mail
                 var length = g.Index - startIndex - 1;
                 sb.Append(format.Substring(startIndex, length));
 
-                var result = source.GetTagValue(g.Value).FirstOrDefault();
+                var result = source.GetTokenValue(g.Value).FirstOrDefault();
 
                 if (!string.IsNullOrEmpty(result))
                 {
                     sb.Append(result);
-                }
-                else
-                {
-                    sb.Append("{" + g.Value + "}");
                 }
 
                 startIndex = g.Index + g.Length + 1;

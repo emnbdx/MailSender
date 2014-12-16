@@ -9,6 +9,7 @@
 
 namespace EMToolBox
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Security.Cryptography;
@@ -36,25 +37,15 @@ namespace EMToolBox
         ///     </see>
         ///     .
         /// </returns>
-        public static IEnumerable<string> GetTagValue(this JToken source, string tag)
+        public static IEnumerable<string> GetTokenValue(this JToken source, string tag)
         {
-            var query = tag.Split(".".ToCharArray());
+            var query = tag.Split(">".ToCharArray());
             IEnumerable<JToken> tokens;
             var result = new List<string>();
             if (query.Count() == 1)
             {
-                query = tag.Split(">".ToCharArray());
-
-                if (query.Count() == 1)
-                {
-                    tokens = source.SelectTokens(query[0]);
-                    result.AddRange(tokens.Select(token => (string)token));
-                }
-                else
-                {
-                    tokens = source.SelectTokens(query[0] + "." + query[1]);
-                    result.AddRange(tokens.Select(token => (string)token));
-                }
+                tokens = source.SelectTokens(query[0]);
+                result.AddRange(tokens.Select(token => (string)token));
             }
             else
             {
@@ -63,6 +54,28 @@ namespace EMToolBox
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// The get JToken in JSON JToken.
+        /// </summary>
+        /// <param name="source">
+        /// The source.
+        /// </param>
+        /// <param name="tag">
+        /// The tag.
+        /// </param>
+        /// <returns>
+        /// The <see>
+        ///         <cref>IEnumerable</cref>
+        ///     </see>
+        ///     .
+        /// </returns>
+        public static IEnumerable<JToken> GetToken(this JToken source, string tag)
+        {
+            var query = tag.Split(">".ToCharArray());
+
+            return query.Count() == 1 ? source.SelectTokens(query[0]) : source.SelectToken(query[0]).Where(x => x["Type"].ToString() == query[1]);
         }
 
         /// <summary>

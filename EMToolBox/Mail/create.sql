@@ -191,7 +191,7 @@ UPDATE PATTERN SET CONTENT = '<!DOCTYPE html>
                 #Contents>PictureUrl#<img src="{Contents>PictureUrl}" alt="{Title}" style="width:160px; height: 120px;" />#/Contents>PictureUrl#
             </a><br />
 			#Contents>Param#{Contents>Param}<br />#/Contents>Param#<br />
-			[Contents>Latitude]<a href="http://maps.google.com/maps?q={Contents>Latitude},{Contents>Longitude}" target="_blank">Voir sur une carte</a>[/Contents>Latitude]<br /><br />
+			[Contents>Latitude]<a href="http://maps.google.com/maps?q={Contents>Latitude},{Contents>Longitude}" target="_blank">Voir sur une carte</a><br /><br />[/Contents>Latitude]
 			Description:<br />
 			{Contents>Description}
         </div>
@@ -242,7 +242,7 @@ Mise en ligne le {Date}, par <a href="{Contents>ContactUrl}">{Contents>Name}</a>
     #Contents>PictureUrl#<img src="{Contents>PictureUrl}" alt="{Title}" style="width:160px; height: 120px;" />#/Contents>PictureUrl#
 </a><br />
 #Contents>Param#{Contents>Param}<br />#/Contents>Param#<br />
-[Contents>Latitude]<a href="http://maps.google.com/maps?q={Contents>Latitude},{Contents>Longitude}" target="_blank">Voir sur une carte</a>[/Contents>Latitude]<br /><br />
+[Contents>Latitude]<a href="http://maps.google.com/maps?q={Contents>Latitude},{Contents>Longitude}" target="_blank">Voir sur une carte</a><br /><br />[/Contents>Latitude]
 Description:<br />
 {Contents>Description}'
 WHERE NAME = 'LBC_RECAP_AD_FULL'

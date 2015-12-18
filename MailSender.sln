@@ -5,7 +5,7 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MailSender", "MailSender\MailSender.csproj", "{70B9AE35-88A4-4FE3-9EC3-46D97D3063AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMToolBox", "..\EMToolBox\EMToolBox\EMToolBox.csproj", "{CB581FED-FAFF-4450-9EBA-129B0BB2A446}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMToolBox", "EMToolBox\EMToolBox\EMToolBox.csproj", "{CB581FED-FAFF-4450-9EBA-129B0BB2A446}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{3A2D7F2C-550F-4264-A15B-3090158365C2}"
 	ProjectSection(SolutionItems) = preProject
